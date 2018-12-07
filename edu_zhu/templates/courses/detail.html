@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    {{ object.title }}
+{% endblock %}
+
+{% block content %}
+    {% with object.subject as subject %}
+        <h1>{{ object.title }}</h1>
+        <div class="module">
+            <h2>课程介绍</h2>
+            <p>
+                <a href="{% url 'course_list_subject' subject.slug %}">{{ subject.title }}</a>
+                {{ object.modules.count }}个章节
+                讲师: {{ object.owner.username }}
+            </p>
+            {{ object.overview|linebreaks }}
+            {% if request.user.is_authenticated %}
+                <form action="{% url 'edu_student:student_enroll_course' %}" method="post">
+                    {{ enroll_form }}
+                    {% csrf_token %}
+                    {% if  %}
+                        <input type="submit" value="开始学习" class="button">
+                    {% else %}
+                        <input type="submit" value="加入课程" class="button">
+                    {% endif %}
+                </form>
+                {{ object }}
+                <br>
+                {{ subject }}
+            {% else %}
+                <a href="{% url 'login' %}" class="button">登录</a>
+                <a href="{% url 'edu_student:student_register' %}" class="button">注册</a>
+            {% endif %}
+        </div>
+    {% endwith %}
+{% endblock %}
+
+
+
+
+
+

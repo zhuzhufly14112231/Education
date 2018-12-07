@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+{% load cache %}
+{% cache 300 name %}
+{% endcache %}
+
+{% block title %}
+{{ object.title }}
+{% endblock %}
+
+
+{% block content %}
+    <h1>{{ module.title }}</h1>
+    <div class="contents">
+        <h3>章节列表</h3>
+        <ul id="modules">
+            {% for m in object.modules.all %}
+                <li data-id="{{ m.id }}" {% if m == module %}
+                    class="selected"
+                {% endif %}>
+                    <a href="{% url 'edu_student:student_course_detail_module' object.id m.id %}">
+                        <span>章节{{ m.order|add:1 }}</span>
+                        <br>
+                        {{ m.title }}
+                    </a>
+                </li>
+            {% empty %}
+                <li>当前课程没有章节</li>
+            {% endfor %}
+        </ul>
+    </div>
+    <div class="module">
+    {% cache 600 module_countents  module %}
+        {% for content in module.contents.all %}
+            <h1>{{ content.item.title }}</h1>
+            {{ content.item.render }}
+        {% empty %}
+            <h1>这里什么东西都没有!</h1>
+        {% endfor %}
+    {% endcache %}
+    </div>
+{% endblock %}
+
+
+
+
+
+
+
+

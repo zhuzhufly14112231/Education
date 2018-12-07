@@ -1,0 +1,73 @@
+
+{% extends 'base.html' %}
+{% load course %}
+{% block title %}
+    章节 {{ module.order|add:1 }}: {{ module.title }}
+{% endblock %}
+
+{% block content %}
+    {% with course=module.course %}
+        <h1>课程 {{ course.title }}</h1>
+        <div class="contents">
+            <h3>章节</h3>
+            <ul id="modules">
+                {% for m in course.modules.all %}
+                    <li data-id="{{ m.id }}" {% if m == module %}
+                        class="selected"
+                    {% endif %}>
+                        <a href="{% url 'module_content_list' m.id %}">
+                            {{ m.title }}
+                        </a>
+                    </li>
+                {% empty %}
+                    <li>这里还没有章节哦</li>
+                {% endfor %}
+            <p>
+                <a href="{% url 'course_module' course.id %}">编辑章节</a>
+            </p>
+            </ul>
+        </div>
+        <div class="module">
+            <h2>章节{{ module.order|add:1 }}: {{ module.title }}</h2>
+            <div id="module-contents">
+                {% for content in module.contents.all %}
+                    <div data-id="{{ content.id }}">
+                        {% with content.item as item %}
+                            <p>{{ item }}({{ item|model_name }})</p>
+                            <a href="{% url 'module_content_update' module.id item|model_name item.id %}">编辑</a>
+                            <form action="{% url 'module_content_delete' content.id %}" method="post">
+                                {% csrf_token %}
+                                <input type="submit" value="删除">
+                            </form>
+                        {% endwith %}
+                    </div>
+                {% empty %}
+                    <p>您这个章节还没有内容</p>
+                {% endfor %}
+            </div>
+            <ul class="content-types">
+                <li><a href="{% url 'module_content_create' module.id 'text' %}">添加文本</a></li>
+                <li><a href="{% url 'module_content_create' module.id 'image' %}">添加图片</a></li>
+                <li><a href="{% url 'module_content_create' module.id 'video' %}">添加视频</a></li>
+                <li><a href="{% url 'module_content_create' module.id 'file' %}">添加文件</a></li>
+            </ul>
+        </div>
+    {% endwith %}
+{% endblock %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

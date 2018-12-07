@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+
+
+{% block title %}
+    {% if subject %}
+        {{ subject.title }}的课程
+    {% else %}
+        所有课程
+    {% endif %}
+{% endblock %}
+
+
+{% block content %}
+    <h1>
+        {% if subject %}
+            {{ subject.title }}的课程
+        {% else %}
+            所有课程
+        {% endif %}
+    </h1>
+    <div class="contents">
+        <h3>主题</h3>
+        <ul class="modules">
+            <li {% if not subject %}
+                class="selected"
+            {% endif %}>
+                <a href="{% url 'course_list' %}">所有课程</a>
+            </li>
+            {% for s in subjects %}
+                <li {% if subject == s %}
+                    class="selected"
+                {% endif %}>
+                    <a href="{% url 'course_list_subject' s.slug %}">
+                        {{ s.title }}
+                        <br>
+                        <span>
+                            这个主题有{{ s.total_courses }}个课程
+                        </span>
+                    </a>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+    <div class="module">
+        {% for course in courses %}
+            {% with course.subject as subject %}
+                <h3><a href="{% url 'course_detail' course.slug %}">{{ course.title }}</a></h3>
+                <p>
+                    <a href="{% url 'course_list_subject' subject.slug %}">
+                        {{ subject.title }}
+                    </a>
+                    该课程包含{{ course.total_modules }}个章节
+                    讲师: {{ course.owner.username }}
+                </p>
+            {% endwith %}
+        {% endfor %}
+    </div>
+{% endblock %}
+
+
+
+
+
+
+
+
+
+

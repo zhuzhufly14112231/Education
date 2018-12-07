@@ -1,0 +1,40 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}
+        在线教育平台
+    {% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'css/base.css' %}">
+</head>
+<body>
+    <div id="header">
+        <a href="/" class="logo">
+            Education -- 在线教育平台
+        </a>
+        <ul>
+            {% if request.user.is_authenticated %}
+                <li><a href="{% url 'logout' %}">注销</a></li>
+            {% else %}
+                <li><a href="{% url 'login' %}">登录</a></li>
+            {% endif %}
+        </ul>
+    </div>
+
+    <div id="content">
+        {% block content %}
+
+        {% endblock %}
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            {% block domready %}
+            
+            {% endblock %}
+        })
+    </script>
+</body>
+</html>

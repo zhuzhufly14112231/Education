@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block title %}
+我的课程
+{% endblock %}
+
+{% block content %}
+    <h1>我的课程</h1>
+    <div class="module">
+        {% for course in object_list %}
+            <div class="course-info">
+                <h3>{{ course.title }}</h3>
+                <p>
+                    <a href="{% url 'course_update' course.id %}">编辑课程</a>
+                    <a href="{% url 'course_delete' course.id %}">删除课程</a>
+                    <a href="{% url 'course_module' course.id %}">编辑章节</a>
+                    {% if course.modules.count > 0 %}
+                        <a href="{% url 'module_content_list' course.modules.first.id %}">管理课程内容</a>
+                    {% endif %}
+                </p>
+            </div>
+        {% empty %}
+            <p>您也可以添加一些课程!</p>
+        {% endfor %}
+        <p>
+            <a href="{% url 'course_create' %}" class="button">创建课程</a>
+        </p>
+    </div>
+{% endblock %}
+
+
+
+

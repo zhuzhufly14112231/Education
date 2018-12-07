@@ -1,0 +1,61 @@
+一个在线教育平台
+有内容管理系统CMS
+
+建立一个灵活的CMS系统,让讲师可以创建课程并且管理课程的内容
+
+提供不同的主题(subject)的课程
+每个课程会被分成一定数量的可能章节(module)
+每一个章节有一定数量的内容(content)
+
+django中,数据模型可继承
+(1)Abstract model 接口模型继承,
+用于向不同的数据模型中添加相同的信息,
+基类不会在数据库中建立数据表,子类会建立数据表
+(2)Muti-table model inheritancd 多表模型继承
+在继承关系中每个表都认为是一个完整的模型,每个表都会建立真实的数据表
+(3)Proxy model 代理模型继承
+在继承的时候需要改变模型的行为时使用
+
+
+创建自定义字段
+- PositiveIntegerField字段
+
+# 如果想为一些基于类的视图,提供特定的功能和行为,可以使用mixins
+- 给类提供一系列可选的特性
+- 在很多类中实现一种特定的功能
+
+# 表单集(formsets)
+- 表单集由多个form类或者ModelForm类的实例组成的
+- 表单集内所有的表单在提交的时候会一起提交,可以对其中所有的表单进行验证
+- 表单集包含一个is_valid(),一次验证所有表单
+
+
+# 一个请求到达应用
+- 在缓存系统中寻找http请求需要的数据
+- 如果找到了直接返回缓存的数据
+- 如果没有找到:
+        * 进行数据查询或者处理,得到数据
+        * 将数据保存到缓存内
+        * 返回数据
+
+# 缓存级别
+1. Low-Level cache API:缓存粒度最细，缓存精确的查询或者计算结果
+2. Pre-view cache;对单独的视图进行缓存
+3. Template cache: 缓存模板片段
+4. Pre-site cache: 站点缓存，最高级别的缓存命
+
+
+# rest 框架提供的序列化器
+
+* Serializer 为普通的python类提供序列化
+* ModelSerializer 为数据模型的实例提供序列化
+
+
+# rest 提供的认证方式
+* BasicAuthentication 这是基础的http认证,用户名和密码存放在http请求头的Authentication头部数据中,
+  以base64格式发送
+* TokenAuthentication 只是基于token的认证,token存放在http请求头的Authentication头部数据中
+* SessionAuthentication 使用django中的session后端进行验证, 对于前端发来的ajax请求一般使用这种方式认证
+
+
+
